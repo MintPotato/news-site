@@ -1,0 +1,21 @@
+// Настройка генератора клиента Prisma
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+// Настройка подключения к базе данных
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Модель для хранения новостей
+model News {
+  id          String   @id @default(cuid())
+  title       String                           // Заголовок новости
+  slug        String   @unique                 // URL-friendly идентификатор
+  description String                           // Краткое описание
+  content     String                           // Полный текст новости
+  imageUrl    String?                           // URL изображения
+}

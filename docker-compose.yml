@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - nextjs
+
+  nextjs:
+    build: .
+    expose:
+      - "3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:1488@postgres:5432/news_db?schema=public
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1488
+      - POSTGRES_DB=news_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
