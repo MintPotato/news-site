@@ -1,11 +1,15 @@
 'use client';
 
+// Импорт необходимых хуков из React и Next.js
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+// Компонент страницы добавления новости
 export default function AddNewsPage() {
   const router = useRouter();
+  // Состояние для отслеживания процесса отправки формы
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // Состояние для хранения данных формы
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -13,14 +17,17 @@ export default function AddNewsPage() {
     imageUrl: '',
   });
 
+  // Обработчик отправки формы
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Предотвращаем повторную отправку формы
     if (isSubmitting) return;
     
     setIsSubmitting(true);
     
     try {
       console.log('Sending data:', formData);
+      // Отправляем POST запрос на API endpoint
       const response = await fetch('/api/news', {
         method: 'POST',
         headers: {
@@ -37,6 +44,7 @@ export default function AddNewsPage() {
       const data = await response.json();
       console.log('Response data:', data);
 
+      // При успешном создании новости перенаправляем на главную страницу
       if (data.success) {
         await router.push('/');
         router.refresh();
@@ -51,6 +59,7 @@ export default function AddNewsPage() {
     }
   };
 
+  // Обработчик изменения полей формы
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -61,6 +70,7 @@ export default function AddNewsPage() {
     }));
   };
 
+  // Рендер формы добавления новости
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-black mb-6">Добавить новость</h1>

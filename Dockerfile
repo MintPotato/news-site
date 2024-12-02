@@ -1,48 +1,55 @@
 # syntax=docker.io/docker/dockerfile:1
 
-# Используем официальный образ Node.js
+# Задаем базовый образ Node.js Alpine для всех этапов сборки
 FROM node:18-alpine AS base
 
-# Install dependencies only when needed
+# Установка зависимостей
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
+# Копируем файлы управления зависимостями
 COPY package.json package-lock.json* ./
+# Устанавливаем зависимости в чистом режиме
 RUN npm ci
 
-# Rebuild the source code only when needed
+# Сборка приложения
 FROM base AS builder
 WORKDIR /
+# Копируем файлы Prisma для генерации клиента
 COPY ./prisma ./prisma
 
 WORKDIR /app
+# Устанавливаем tsx для выполнения TypeScript
 RUN npm install tsx
+# Копируем установленные зависимости и исходный код
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Generate Prisma Client and run migrations
+# Генерируем клиент Prisma
 RUN npx prisma generate
 
-# Build the application
+# Собираем приложение
 RUN npm run build
 
-# Production image, copy all the files and run next
+# Подготовка продакшн-образа
 FROM base AS runner
 WORKDIR /app
 
+# Устанавливаем режим production
 ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Копируем статические файлы
 COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
+# Копируем файлы Prisma
 COPY --from=builder --chown=nextjs:nodejs /prisma ./prisma
 
 # Automatically leverage output traces to reduce image size
@@ -56,6 +63,6 @@ EXPOSE 3000
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
+# Запускаем миграции, сидирование базы данных и сервер
 CMD \
     npx prisma migrate deploy; npx tsx ./prisma/seed.ts; node server.js;
-# CMD ["node", "server.js"];

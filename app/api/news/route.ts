@@ -1,3 +1,4 @@
+// Импорт необходимых зависимостей
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import slugify from 'slugify'
@@ -37,9 +38,10 @@ export async function POST(request: Request) {
       )
     }
 
+    // Извлекаем данные из тела запроса
     const { title, description, content, imageUrl } = body
 
-    // Логируем создание slug
+    // Создаем slug из заголовка новости
     console.log('Creating slug from title:', title)
     const slug = slugify(title, {
       lower: true,
@@ -48,7 +50,7 @@ export async function POST(request: Request) {
     })
     console.log('Generated slug:', slug)
 
-    // Логируем попытку создания записи
+    // Создаем новую запись в базе данных
     console.log('Attempting to create news entry with data:', {
       title,
       description,
@@ -78,6 +80,7 @@ export async function POST(request: Request) {
       stack: error.stack
     })
 
+    // Обработка ошибки дублирования записи
     if (error.code === 'P2002') {
       return NextResponse.json(
         { success: false, error: 'Новость с таким заголовком уже существует' },
