@@ -2,4 +2,4 @@
 - `https://i.pinimg.com/`
 
 ## Пример работы сайта
-![]([image.png](https://github.com/MintPotato/news-site/blob/main/gif/Desktop2024.12.02-08.57.30.07-ezgif.com-video-to-gif-converter.gif))
+![](https://github.com/MintPotato/news-site/blob/main/gif/Desktop2024.12.02-08.57.30.07-ezgif.com-video-to-gif-converter.gif)
