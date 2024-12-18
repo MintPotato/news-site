@@ -12,6 +12,8 @@ services:
 
   nextjs:
     build: .
+    ports:
+      - 3000:3000
     environment:
       - DATABASE_URL=postgresql://postgres:1488@postgres:5432/news_db?schema=public
     restart: always
