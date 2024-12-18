@@ -1,32 +1,41 @@
 version: '3.8'
 
 services:
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-    depends_on:
-      - nextjs
+  # nginx:
+  #   build: ./nginx
+  #   ports:
+  #     - "80:80"
+  #   networks:
+  #     - my-network
+  #   depends_on:
+  #     - nextjs
 
   nextjs:
     build: .
-    expose:
-      - "3000"
     environment:
       - DATABASE_URL=postgresql://postgres:1488@postgres:5432/news_db?schema=public
+    restart: always
+    networks:
+      - my-network
     depends_on:
-      - postgres
+      postgres: 
+        condition: service_started 
 
   postgres:
     image: postgres:15-alpine
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1488
       - POSTGRES_DB=news_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+networks:
+  my-network:
 
 volumes:
   postgres_data:

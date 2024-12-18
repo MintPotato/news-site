@@ -1,4 +1,3 @@
-// Импорт необходимых зависимостей
 import { Hono } from 'hono'
 import { prisma } from '@/lib/prisma'
 
@@ -66,7 +65,6 @@ app.delete('/:slug', async (c) => {
   }
 })
 
-// Экспорт обработчиков для Next.js API routes
 export const GET = async (req: Request) => app.fetch(req)
 export const PUT = async (req: Request) => app.fetch(req)
 export const DELETE = async (req: Request) => app.fetch(req)

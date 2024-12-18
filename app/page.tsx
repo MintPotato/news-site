@@ -1,8 +1,7 @@
-// Импорт необходимых компонентов и утилит
 import { prisma } from '@/lib/prisma';
 import NewsCard from './components/NewsCard';
 
-// Отключаем кэширование страницы для получения актуальных данных
+// Отключаем статическую генерацию для этой страницы
 export const dynamic = 'force-dynamic';
 
 // Функция для получения списка всех новостей из базы данных
@@ -31,7 +30,7 @@ export default async function Home() {
       {/* Основной контент с сеткой новостей */}
       <main>
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          {/* Адаптивная сетка для карточек новостей */}
+          {/* Сетка новостей */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {/* Отображаем карточку для каждой новости */}
             {news.map((item) => (

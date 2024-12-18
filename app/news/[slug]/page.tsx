@@ -1,4 +1,3 @@
-// Импорт необходимых компонентов и утилит
 import { prisma } from '@/lib/prisma';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,7 +20,6 @@ export default async function NewsPage({ params }: PageProps) {
     where: { slug }
   });
 
-  // Если новость не найдена, показываем страницу 404
   if (!news) {
     notFound();
   }

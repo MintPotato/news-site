@@ -1,4 +1,3 @@
-// Импорт необходимых зависимостей
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import slugify from 'slugify'
@@ -6,7 +5,7 @@ import slugify from 'slugify'
 // GET /api/news - получение списка всех новостей
 export async function GET() {
   try {
-    // Получаем все новости, сортируя по дате (сначала новые)
+    // Получаем все новости, сортируя по id
     const news = await prisma.news.findMany({
       orderBy: {
         id: 'desc',

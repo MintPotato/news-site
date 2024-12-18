@@ -1,6 +1,5 @@
 'use client';
 
-// Импорт необходимых компонентов и типов
 import Image from 'next/image';
 import Link from 'next/link';
 import { News } from '@prisma/client';
@@ -20,7 +19,7 @@ export default function NewsCard({ news }: NewsCardProps) {
     <Link href={`/news/${news.slug}`} className="group">
       {/* Контейнер карточки с эффектами при наведении */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-200 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1">
-        {/* Контейнер для изображения с фиксированной высотой */}
+        {/* Контейнер для изображения */}
         <div className="relative h-48">
           <Image
             src={news.imageUrl || defaultImage}

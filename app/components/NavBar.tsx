@@ -1,10 +1,8 @@
-// Импорт компонента Link из Next.js для навигации между страницами
 import Link from 'next/link';
 
-// Компонент навигационной панели
 export default function NavBar() {
   return (
-    // Контейнер навигационной панели с темным фоном
+    // Контейнер навигационной панели
     <nav className="bg-gray-800 text-white py-4">
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Ссылка на главную страницу */}

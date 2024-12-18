@@ -1,7 +1,7 @@
 // Настройка генератора клиента Prisma
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "linux-musl"]
 }
 
 // Настройка подключения к базе данных
@@ -17,5 +17,5 @@ model News {
   slug        String   @unique                 // URL-friendly идентификатор
   description String                           // Краткое описание
   content     String                           // Полный текст новости
-  imageUrl    String?                           // URL изображения
+  imageUrl    String?                          // URL изображения
 }
